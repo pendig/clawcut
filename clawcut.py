@@ -6,6 +6,13 @@ import sys
 import textwrap
 import shutil
 
+# Try to load environment variables from .env if python-dotenv is installed
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 class ClawcutEngine:
     # Built-in Standard Presets
     GLOBAL_PRESETS = {
