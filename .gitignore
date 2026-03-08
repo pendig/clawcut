@@ -5,5 +5,9 @@ assets/test1.mp4
 assets/test2.mp4
 clips.txt
 outputs/
-# Private Pendig Presets
-presets/podcast-clip.json
+
+# Ignore all presets by default
+presets/*
+
+# Except for the public example
+!presets/example.json
