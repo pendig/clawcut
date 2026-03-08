@@ -3,52 +3,59 @@ name: clawcut
 description: Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v1.7) - Developer Guide
+# Clawcut Skill (v2.1.1) - Developer Guide
 
-Clawcut is an agentic video editing engine designed for programmatic content creation. It features a flexible **JSON Preset System**, allowing users and organizations to define their own visual standards.
+Clawcut is a lightweight, agentic video editing engine built as a declarative Python wrapper for **FFmpeg**. It was designed specifically as a "Sat-Set" (fast/efficient) alternative to heavier editing frameworks like `editly`, offering zero-configuration and high portability for AI agents.
 
-## Features
-- **JSON Presets**: Define custom resolutions, zoom levels, render modes, and vertical offsets.
-- **Smart Clipping**: Download and trim specific segments from URLs (YouTube, TikTok, Instagram).
-- **Auto-Scaling**: Intelligent "contain" and "pad" logic to maintain aspect ratios.
-- **Elevated Style**: Move video positioning vertically (y-offset) to make room for captions/branding.
+## 🛠 System Dependencies
 
-## Parameters
+To use Clawcut, the following libraries must be installed on your system:
 
-| Argument | Example | Description |
-| :--- | :--- | :--- |
-| `--preset` | `podcast-clip`, `reels` | Use a built-in or custom JSON preset from `presets/` folder. |
-| `--zoom` | `1.25` | Override the zoom factor for this render. |
-| `--mode` | `cover` / `fit` | Override render mode (Fill vs Contain). |
-| `--output` | `final.mp4` | Custom output filename. |
+1.  **FFmpeg**: The core video processing engine.
+    *   Ubuntu/Debian: `sudo apt update && sudo apt install ffmpeg`
+    *   MacOS: `brew install ffmpeg`
+2.  **yt-dlp**: For downloading and clipping videos from URLs.
+    *   Install via pip: `pip install yt-dlp`
 
-## Creating Custom Presets
-Users can create their own visual identity by adding a JSON file to the `presets/` directory.
+## 📂 Structure
 
-Example `my-vibe.json`:
+- `clawcut.py`: The main execution engine.
+- `requirements.txt`: Python dependencies.
+- `presets/`: Directory for JSON layout definitions.
+- `assets/branding/`: Directory for your custom `watermark.png` and `poppins-bold.ttf`.
+
+## ⚙️ Configuration (JSON Presets)
+
+Users can define their own visual identity by adding a JSON file to the `presets/` directory.
+
+Example `my-style.json`:
 ```json
 {
   "width": 1080,
   "height": 1920,
   "mode": "fit",
-  "zoom": 1.1,
-  "y_offset": 200,
-  "description": "My custom centered style"
+  "zoom": 1.25,
+  "y_offset": 300,
+  "margin": 70,
+  "watermark": true,
+  "watermark_opacity": 0.75,
+  "description": "My professional podcast style"
 }
 ```
 
-## Quick Usage Examples
+## 🚀 Usage
 
-### 1. Using the "Podcast Clip" Preset (Elevated style)
+### 1. Simple Clip
 ```bash
-python3 clawcut.py --url "URL" --start 01:15 --duration 90 --preset podcast-clip
+python3 clawcut.py --url "https://youtube.com/..." --preset reels
 ```
 
-### 2. Standard 16:9 YouTube Clip
+### 2. Branded Render with Title
 ```bash
-python3 clawcut.py --url "URL" --preset youtube --output "quick_clip.mp4"
+python3 clawcut.py --url "URL" --preset podcast-clip --title "My Awesome Headline" --watermark
 ```
 
-## Output Locations
-- **Pendig Server**: `/media/clawcut/` (Accessible via Public Tunnel).
-- **Local/Public Use**: Stored in the `outputs/` folder.
+## 📝 Developer Notes
+- **Font Support**: Clawcut looks for a font at `assets/branding/poppins-bold.ttf`. If missing, titles will be skipped.
+- **Watermark**: Looks for `assets/branding/watermark.png`. Supports opacity and custom X/Y positioning.
+- **Auto-Scaling**: Use `mode: "cover"` to fill the screen or `mode: "fit"` for a centered letterboxed look.

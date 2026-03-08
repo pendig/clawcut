@@ -1,24 +1,55 @@
-# Clawcut - Agentic Video Editing Engine
+# 🎬 Clawcut
 
-Clawcut is a lightweight, declarative video editing engine built on top of FFmpeg. Designed specifically for AI Agents, it provides a "Sat-Set" (fast and efficient) workflow for programmatic video creation without the heavy dependencies of modern NLE frameworks.
+**Clawcut** is a lightweight, agentic video editing engine designed for the Clawhub AI ecosystem. It provides a "Sat-Set" (fast and efficient) alternative to heavy editing frameworks by leveraging a declarative Python wrapper for **FFmpeg**.
 
-## Core Philosophies
-- **Agent-First**: Easy for AI models to generate edit instructions (JSON-driven).
-- **Native Power**: Leverages FFmpeg for maximum stability and rendering speed.
-- **Zero-Config**: Works anywhere FFmpeg is installed, with smart path detection for local and cloud environments.
-
-## Features
-- **Smart Clipping**: Download and cut specific segments from URLs (YouTube, TikTok, Instagram) using integrated `yt-dlp`.
-- **Dynamic Resolution**: Automatic scaling and padding for Reels (9:16), YouTube (16:9), Instagram (4:5), and Square (1:1).
-- **Smooth Transitions**: Built-in support for FFmpeg `xfade` filters (Wipe, Fade, Circle, etc.).
-- **Auto-Branding**: Programmatic overlay of logos, watermarks, and high-quality typography (Poppins).
-
-## Project Structure
-- `clawcut.py`: The core engine wrapper.
-- `SKILL.md`: Comprehensive usage guide for AI Agents and Developers.
-- `TODO.md`: Internal roadmap and feature tracking.
-- `assets/`: Resource folder for fonts, logos, and audio.
-- `presets/`: JSON-based editing templates.
+Built specifically for AI agents and programmatic content creators who need precision, speed, and zero-configuration portability.
 
 ---
-*Developed by PendigEditor for the Pena Digital Ecosystem.*
+
+## 🚀 Why Clawcut?
+
+Unlike other engines like `editly`, Clawcut is:
+- **Zero-Config**: No complex system dependencies (libcairo, pkg-config, etc.). Just FFmpeg and Python.
+- **Agentic-First**: Designed to be controlled by AI agents via JSON presets and CLI.
+- **Fast ("Sat-Set")**: Native FFmpeg execution for high-speed rendering and clipping.
+- **Portable**: Easy to integrate as an OpenClaw Skill or a standalone tool.
+
+## ✨ Core Features
+
+- **Smart URL Clipping**: Instant downloading and trimming from YouTube, TikTok, etc., using `yt-dlp`.
+- **JSON Preset System**: Define your visual identity (resolution, zoom, margins) in simple JSON files.
+- **Dynamic Framing**: Support for `cover` (fill) and `fit` (letterbox) modes.
+- **Auto-Branding**: Integrated watermark support with opacity control and Poppins-Bold typography.
+- **Elevated Layouts**: Vertical offsets (y-offset) specifically designed for Podcast and News clips.
+
+## 🛠 Installation
+
+1. **System Requirements**:
+   - [FFmpeg](https://ffmpeg.org/download.html)
+   - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
+2. **Clone & Setup**:
+   ```bash
+   git clone https://github.com/pendig/clawcut.git
+   cd clawcut
+   pip install -r requirements.txt
+   ```
+
+## 📂 Project Structure
+
+- `clawcut.py`: The main execution engine.
+- `presets/`: Folder for layout definitions (e.g., `reels.json`, `podcast-clip.json`).
+- `assets/branding/`: Place your `watermark.png` and `poppins-bold.ttf` here.
+- `SKILL.md`: Detailed developer and OpenClaw integration guide.
+
+## 🏁 Quick Start
+
+Render a branded Podcast Clip with a custom title:
+```bash
+python3 clawcut.py --url "YOUTUBE_URL" --preset podcast-clip --title "My Viral News" --watermark
+```
+
+---
+
+## 📄 License
+MIT License. Created with 🎬 and 🚀 by the **Pena Digital** team.
