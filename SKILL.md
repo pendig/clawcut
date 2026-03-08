@@ -3,7 +3,7 @@ name: clawcut
 description: Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v2.1.1) - Developer Guide
+# Clawcut Skill (v2.1.2) - Developer Guide
 
 Clawcut is a lightweight, agentic video editing engine built as a declarative Python wrapper for **FFmpeg**. It was designed specifically as a "Sat-Set" (fast/efficient) alternative to heavier editing frameworks like `editly`, offering zero-configuration and high portability for AI agents.
 
@@ -16,6 +16,18 @@ To use Clawcut, the following libraries must be installed on your system:
     *   MacOS: `brew install ffmpeg`
 2.  **yt-dlp**: For downloading and clipping videos from URLs.
     *   Install via pip: `pip install yt-dlp`
+
+## ⚙️ Environment Configuration
+
+Clawcut supports custom output directories via environment variables (e.g., in a `.env` file).
+
+1.  Copy `.env.example` to `.env`.
+2.  Set `CLAWCUT_OUTPUT_DIR` to your desired final media storage location.
+
+```bash
+# Example .env
+CLAWCUT_OUTPUT_DIR=/home/user/my_public_videos
+```
 
 ## 📂 Structure
 

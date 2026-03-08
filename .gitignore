@@ -5,6 +5,7 @@ assets/test1.mp4
 assets/test2.mp4
 clips.txt
 outputs/
+.env
 
 # Ignore all presets by default
 presets/*
