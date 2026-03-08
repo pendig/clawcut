@@ -1,0 +1,9 @@
+{
+  "name": "My Custom Style",
+  "width": 1080,
+  "height": 1920,
+  "mode": "fit",
+  "zoom": 1.1,
+  "y_offset": 100,
+  "description": "Example preset for custom framing."
+}

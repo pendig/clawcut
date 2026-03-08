@@ -3,44 +3,52 @@ name: clawcut
 description: Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v1.3) - Developer Guide
+# Clawcut Skill (v1.7) - Developer Guide
 
-Clawcut is a lightweight video editing engine designed for AI Agents to programmatically generate and edit video content. It supports automated clip downloading, trimming, and multi-format rendering.
+Clawcut is an agentic video editing engine designed for programmatic content creation. It features a flexible **JSON Preset System**, allowing users and organizations to define their own visual standards.
 
-## Core Capabilities
-- **Smart Clipping**: Download and trim specific segments from various social media platforms (YouTube, Instagram, TikTok, etc.).
-- **Resolution Presets**: One-click formatting for social media aspect ratios (Reels, Stories, Posts, YouTube).
-- **Auto-Scaling**: Intelligent "contain" and "pad" logic to prevent distorted video when switching aspect ratios.
+## Features
+- **JSON Presets**: Define custom resolutions, zoom levels, render modes, and vertical offsets.
+- **Smart Clipping**: Download and trim specific segments from URLs (YouTube, TikTok, Instagram).
+- **Auto-Scaling**: Intelligent "contain" and "pad" logic to maintain aspect ratios.
+- **Elevated Style**: Move video positioning vertically (y-offset) to make room for captions/branding.
 
 ## Parameters
 
-| Argument | Options / Examples | Description |
+| Argument | Example | Description |
 | :--- | :--- | :--- |
-| `--url` | `https://youtube.com/watch?v=...` | URL to download and process. |
-| `--start` | `75` or `01:15` | Clip start time (seconds or HH:MM:SS). |
-| `--duration` | `10` | Duration of the clip in seconds. |
-| `--preset` | `reels`, `youtube`, `instagram`, `square`, `1080p`, `720p` | Standard resolution presets. |
-| `--width` | `1080` | Custom video width (px). |
-| `--height` | `1920` | Custom video height (px). |
-| `--output` | `final_video.mp4` | Custom output filename. |
+| `--preset` | `podcast-clip`, `reels` | Use a built-in or custom JSON preset from `presets/` folder. |
+| `--zoom` | `1.25` | Override the zoom factor for this render. |
+| `--mode` | `cover` / `fit` | Override render mode (Fill vs Contain). |
+| `--output` | `final.mp4` | Custom output filename. |
+
+## Creating Custom Presets
+Users can create their own visual identity by adding a JSON file to the `presets/` directory.
+
+Example `my-vibe.json`:
+```json
+{
+  "width": 1080,
+  "height": 1920,
+  "mode": "fit",
+  "zoom": 1.1,
+  "y_offset": 200,
+  "description": "My custom centered style"
+}
+```
 
 ## Quick Usage Examples
 
-### 1. Create a Reel (9:16) from YouTube
+### 1. Using the "Podcast Clip" Preset (Elevated style)
 ```bash
-python3 clawcut.py --url "URL" --start 10 --duration 15 --preset reels --output "apple_reel.mp4"
+python3 clawcut.py --url "URL" --start 01:15 --duration 90 --preset podcast-clip
 ```
 
-### 2. Prepare a YouTube Clip (16:9)
+### 2. Standard 16:9 YouTube Clip
 ```bash
-python3 clawcut.py --url "URL" --start 60 --duration 120 --preset youtube --output "yt_clip.mp4"
-```
-
-### 3. Custom Square Post (1:1)
-```bash
-python3 clawcut.py --url "URL" --width 1000 --height 1000 --output "square_promo.mp4"
+python3 clawcut.py --url "URL" --preset youtube --output "quick_clip.mp4"
 ```
 
 ## Output Locations
-- **Pendig Server (Production)**: Automatically delivered to `/media/clawcut/` (Accessible via Public Tunnel).
-- **Local/Public Use**: Stored in the `outputs/` folder relative to the script location.
+- **Pendig Server**: `/media/clawcut/` (Accessible via Public Tunnel).
+- **Local/Public Use**: Stored in the `outputs/` folder.
