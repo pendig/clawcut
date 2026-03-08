@@ -1,21 +1,30 @@
 ---
 name: clawcut
-description: Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
+description: Modular Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v2.1.2) - Developer Guide
+# Clawcut Skill (v2.2.0) - Developer Guide
 
-Clawcut is a lightweight, agentic video editing engine built as a declarative Python wrapper for **FFmpeg**. It was designed specifically as a "Sat-Set" (fast/efficient) alternative to heavier editing frameworks like `editly`, offering zero-configuration and high portability for AI agents.
+Clawcut is a modular, agentic video editing engine built as a declarative Python wrapper for **FFmpeg**. It was designed specifically as a "Sat-Set" (fast/efficient) alternative to heavier editing frameworks like `editly`, offering zero-configuration and high portability for AI agents.
 
 ## 🛠 System Dependencies
 
 To use Clawcut, the following libraries must be installed on your system:
 
 1.  **FFmpeg**: The core video processing engine.
-    *   Ubuntu/Debian: `sudo apt update && sudo apt install ffmpeg`
-    *   MacOS: `brew install ffmpeg`
 2.  **yt-dlp**: For downloading and clipping videos from URLs.
-    *   Install via pip: `pip install yt-dlp`
+3.  **python-dotenv**: For environment variable support.
+
+## 📂 Structure
+
+- `main.py`: The main CLI entry point.
+- `clawcut/`:
+    - `core/engine.py`: The main execution logic.
+    - `core/filters.py`: FFmpeg filter construction factory.
+    - `core/presets.py`: JSON and global preset manager.
+    - `utils/helpers.py`: System verification and time utilities.
+- `presets/`: Directory for JSON layout definitions.
+- `assets/branding/`: Directory for your custom `watermark.png` and `poppins-bold.ttf`.
 
 ## ⚙️ Environment Configuration
 
@@ -23,18 +32,6 @@ Clawcut supports custom output directories via environment variables (e.g., in a
 
 1.  Copy `.env.example` to `.env`.
 2.  Set `CLAWCUT_OUTPUT_DIR` to your desired final media storage location.
-
-```bash
-# Example .env
-CLAWCUT_OUTPUT_DIR=/home/user/my_public_videos
-```
-
-## 📂 Structure
-
-- `clawcut.py`: The main execution engine.
-- `requirements.txt`: Python dependencies.
-- `presets/`: Directory for JSON layout definitions.
-- `assets/branding/`: Directory for your custom `watermark.png` and `poppins-bold.ttf`.
 
 ## ⚙️ Configuration (JSON Presets)
 
@@ -59,15 +56,15 @@ Example `my-style.json`:
 
 ### 1. Simple Clip
 ```bash
-python3 clawcut.py --url "https://youtube.com/..." --preset reels
+python3 main.py --url "https://youtube.com/..." --preset reels
 ```
 
 ### 2. Branded Render with Title
 ```bash
-python3 clawcut.py --url "URL" --preset podcast-clip --title "My Awesome Headline" --watermark
+python3 main.py --url "URL" --preset podcast-clip --title "My Awesome Headline" --watermark
 ```
 
 ## 📝 Developer Notes
-- **Font Support**: Clawcut looks for a font at `assets/branding/poppins-bold.ttf`. If missing, titles will be skipped.
-- **Watermark**: Looks for `assets/branding/watermark.png`. Supports opacity and custom X/Y positioning.
-- **Auto-Scaling**: Use `mode: "cover"` to fill the screen or `mode: "fit"` for a centered letterboxed look.
+- **Modular Filters**: Add new FFmpeg filters in `clawcut/core/filters.py`.
+- **Engine Logic**: Modify core execution flow in `clawcut/core/engine.py`.
+- **Font/Watermark**: Assets are managed via the `FilterFactory` class.
