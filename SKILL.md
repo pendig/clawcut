@@ -3,68 +3,61 @@ name: clawcut
 description: Modular Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v2.2.0) - Developer Guide
+# Clawcut Skill (v2.3.0) - Developer Guide
 
-Clawcut is a modular, agentic video editing engine built as a declarative Python wrapper for **FFmpeg**. It was designed specifically as a "Sat-Set" (fast/efficient) alternative to heavier editing frameworks like `editly`, offering zero-configuration and high portability for AI agents.
+Clawcut is a modular, agentic video editing engine. It handles complex FFmpeg operations through a simple JSON-based "Elements" system.
 
-## 🛠 System Dependencies
+## 🎨 Visual Elements
 
-To use Clawcut, the following libraries must be installed on your system:
+Clawcut treats visual overlays as "Elements" that can be positioned and styled dynamically.
 
-1.  **FFmpeg**: The core video processing engine.
-2.  **yt-dlp**: For downloading and clipping videos from URLs.
-3.  **python-dotenv**: For environment variable support.
+### 1. Title Element (`title`)
+The primary text overlay.
+- **`title`**: The text content.
+- **`font_size`**: Size in pixels.
+- **`margin`**: Side padding to force text wrapping.
+- **`y_offset`**: Moves the text block vertically.
 
-## 📂 Structure
+### 2. Logo/Watermark Element (`watermark`)
+The branding overlay (e.g., Pena Digital logo).
+- **`watermark_pos`**: Shorthand positions (`top-left`, `top-right`, `top-center`, `bottom-left`, `bottom-right`, `bottom-center`).
+- **`watermark_x`**: Fine-tuned X coordinate (FFmpeg syntax supported, e.g., `main_w-overlay_w-50`).
+- **`watermark_y`**: Fine-tuned Y coordinate.
+- **`watermark_opacity`**: Transparency from `0.0` to `1.0`.
+- **`watermark_scale`**: Width of the logo in pixels (maintains aspect ratio).
+
+## 📂 Project Structure
 
 - `main.py`: The main CLI entry point.
 - `clawcut/`:
     - `core/engine.py`: The main execution logic.
-    - `core/filters.py`: FFmpeg filter construction factory.
+    - `core/filters.py`: **The Element Factory** (Where visual components are built).
     - `core/presets.py`: JSON and global preset manager.
-    - `utils/helpers.py`: System verification and time utilities.
 - `presets/`: Directory for JSON layout definitions.
 - `assets/branding/`: Directory for your custom `watermark.png` and `poppins-bold.ttf`.
 
-## ⚙️ Environment Configuration
+## 🚀 Usage
 
-Clawcut supports custom output directories via environment variables (e.g., in a `.env` file).
+### Position Logo at Top-Right
+```bash
+python3 main.py --url "URL" --watermark --wm_pos top-right --wm_opacity 0.8
+```
 
-1.  Copy `.env.example` to `.env`.
-2.  Set `CLAWCUT_OUTPUT_DIR` to your desired final media storage location.
+### Manual X/Y Overrides (Element Control)
+```bash
+python3 main.py --url "URL" --watermark --wm_x 50 --wm_y 50
+```
 
 ## ⚙️ Configuration (JSON Presets)
 
-Users can define their own visual identity by adding a JSON file to the `presets/` directory.
-
-Example `my-style.json`:
 ```json
 {
   "width": 1080,
   "height": 1920,
-  "mode": "fit",
-  "zoom": 1.25,
-  "y_offset": 300,
-  "margin": 70,
   "watermark": true,
-  "watermark_opacity": 0.75,
-  "description": "My professional podcast style"
+  "watermark_pos": "top-center",
+  "watermark_y": 50,
+  "watermark_opacity": 0.9,
+  "description": "Standard Pendig Header Style"
 }
 ```
-
-## 🚀 Usage
-
-### 1. Simple Clip
-```bash
-python3 main.py --url "https://youtube.com/..." --preset reels
-```
-
-### 2. Branded Render with Title
-```bash
-python3 main.py --url "URL" --preset podcast-clip --title "My Awesome Headline" --watermark
-```
-
-## 📝 Developer Notes
-- **Modular Filters**: Add new FFmpeg filters in `clawcut/core/filters.py`.
-- **Engine Logic**: Modify core execution flow in `clawcut/core/engine.py`.
-- **Font/Watermark**: Assets are managed via the `FilterFactory` class.

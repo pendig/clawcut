@@ -47,11 +47,25 @@ class FilterFactory:
         return vf_chain
 
     def build_watermark_complex(self, v_processed, options, wm_path):
-        wm_x = options.get("watermark_x", "(main_w-overlay_w)/2")
-        wm_y = options.get("watermark_y", "100")
+        # Shorthand Position Logic
+        pos_map = {
+            "top-left": {"x": "20", "y": "20"},
+            "top-right": {"x": "main_w-overlay_w-20", "y": "20"},
+            "top-center": {"x": "(main_w-overlay_w)/2", "y": "20"},
+            "bottom-left": {"x": "20", "y": "main_h-overlay_h-20"},
+            "bottom-right": {"x": "main_w-overlay_w-20", "y": "main_h-overlay_h-20"},
+            "bottom-center": {"x": "(main_w-overlay_w)/2", "y": "main_h-overlay_h-20"}
+        }
+        
+        pos = options.get("watermark_pos", "")
+        default_x = pos_map.get(pos, {}).get("x", "(main_w-overlay_w)/2")
+        default_y = pos_map.get(pos, {}).get("y", "100")
+
+        wm_x = options.get("watermark_x", default_x)
+        wm_y = options.get("watermark_y", default_y)
         wm_opacity = options.get("watermark_opacity", 1.0)
         wm_scale = options.get("watermark_scale", 450)
         
-        # Overlay logic: [0:v]...[v_processed];[1:v]scale...[wm];[v_processed][wm]overlay...[final]
+        # Overlay logic
         filter_complex = f"{v_processed}[v_main];[1:v]scale={wm_scale}:-1,format=rgba,colorchannelmixer=aa={wm_opacity}[wm];[v_main][wm]overlay={wm_x}:{wm_y}[final]"
         return filter_complex, "[final]"

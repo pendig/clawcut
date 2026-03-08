@@ -22,8 +22,9 @@ def main():
     parser.add_argument("--fontsize", type=int, help="Font size for title")
     parser.add_argument("--margin", type=int, help="Margin left/right for title")
     parser.add_argument("--watermark", action="store_true", help="Add watermark")
-    parser.add_argument("--wm_x", help="Watermark X position")
-    parser.add_argument("--wm_y", help="Watermark Y position")
+    parser.add_argument("--wm_pos", choices=["top-left", "top-right", "top-center", "bottom-left", "bottom-right", "bottom-center"], help="Shorthand watermark position")
+    parser.add_argument("--wm_x", help="Watermark X position (overrides pos)")
+    parser.add_argument("--wm_y", help="Watermark Y position (overrides pos)")
     parser.add_argument("--wm_opacity", type=float, help="Watermark opacity (0.0-1.0)")
     parser.add_argument("--output", default="clawcut_render.mp4", help="Output filename")
     
@@ -47,6 +48,7 @@ def main():
     if args.fontsize: render_options["font_size"] = args.fontsize
     if args.margin: render_options["margin"] = args.margin
     if args.watermark: render_options["watermark"] = True
+    if args.wm_pos: render_options["watermark_pos"] = args.wm_pos
     if args.wm_x: render_options["watermark_x"] = args.wm_x
     if args.wm_y: render_options["watermark_y"] = args.wm_y
     if args.wm_opacity: render_options["watermark_opacity"] = args.wm_opacity
