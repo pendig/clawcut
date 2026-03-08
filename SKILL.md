@@ -3,41 +3,44 @@ name: clawcut
 description: Agentic Video Editing Engine using FFmpeg. Supports JSON-driven edits, auto-scaling, and smart downloading.
 ---
 
-# Clawcut Skill (v1.3)
+# Clawcut Skill (v1.3) - Developer Guide
 
-Clawcut adalah engine pengeditan video yang dirancang untuk AI Agent. Mendukung pengolahan video dari URL atau file lokal dengan pengaturan resolusi otomatis.
+Clawcut is a lightweight video editing engine designed for AI Agents to programmatically generate and edit video content. It supports automated clip downloading, trimming, and multi-format rendering.
 
-## Fitur Utama
-- **Smart Scaling**: Otomatis menyesuaikan video ke berbagai aspek rasio (Reels, YouTube, Instagram).
-- **Resolution Presets**: Tersedia preset standar sosial media.
-- **Deep Clipping**: Download dan potong bagian spesifik dari URL video.
+## Core Capabilities
+- **Smart Clipping**: Download and trim specific segments from various social media platforms (YouTube, Instagram, TikTok, etc.).
+- **Resolution Presets**: One-click formatting for social media aspect ratios (Reels, Stories, Posts, YouTube).
+- **Auto-Scaling**: Intelligent "contain" and "pad" logic to prevent distorted video when switching aspect ratios.
 
-## Parameter Resolusi
-Gunakan argumen berikut untuk mengatur kualitas dan format output:
+## Parameters
 
-| Argument | Options / Example | Description |
+| Argument | Options / Examples | Description |
 | :--- | :--- | :--- |
-| `--preset` | `reels`, `youtube`, `instagram`, `square`, `1080p`, `720p` | Preset resolusi standar |
-| `--width` | `1080`, `1920`, etc | Custom lebar video (px) |
-| `--height` | `1920`, `1080`, etc | Custom tinggi video (px) |
+| `--url` | `https://youtube.com/watch?v=...` | URL to download and process. |
+| `--start` | `75` or `01:15` | Clip start time (seconds or HH:MM:SS). |
+| `--duration` | `10` | Duration of the clip in seconds. |
+| `--preset` | `reels`, `youtube`, `instagram`, `square`, `1080p`, `720p` | Standard resolution presets. |
+| `--width` | `1080` | Custom video width (px). |
+| `--height` | `1920` | Custom video height (px). |
+| `--output` | `final_video.mp4` | Custom output filename. |
 
-## Contoh Penggunaan
+## Quick Usage Examples
 
-### 1. Render untuk Reels (9:16)
+### 1. Create a Reel (9:16) from YouTube
 ```bash
-python3 clawcut.py --url "URL" --start 10 --duration 15 --preset reels --output "reels_pendig.mp4"
+python3 clawcut.py --url "URL" --start 10 --duration 15 --preset reels --output "apple_reel.mp4"
 ```
 
-### 2. Render untuk YouTube (16:9)
+### 2. Prepare a YouTube Clip (16:9)
 ```bash
-python3 clawcut.py --url "URL" --start 60 --duration 120 --preset youtube --output "yt_pendig.mp4"
+python3 clawcut.py --url "URL" --start 60 --duration 120 --preset youtube --output "yt_clip.mp4"
 ```
 
-### 3. Custom Resolution
+### 3. Custom Square Post (1:1)
 ```bash
-python3 clawcut.py --url "URL" --width 1000 --height 1000 --output "custom_square.mp4"
+python3 clawcut.py --url "URL" --width 1000 --height 1000 --output "square_promo.mp4"
 ```
 
-## Lokasi Output
-- **Pena Digital Server**: `/media/clawcut/` (Accessible via Public Tunnel)
-- **General/Public**: `/outputs/` (Local workspace)
+## Output Locations
+- **Pendig Server (Production)**: Automatically delivered to `/media/clawcut/` (Accessible via Public Tunnel).
+- **Local/Public Use**: Stored in the `outputs/` folder relative to the script location.
