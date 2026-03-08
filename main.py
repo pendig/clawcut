@@ -6,7 +6,8 @@ from clawcut import ClawcutEngine
 # Try to load environment variables from .env if python-dotenv is installed
 try:
     from dotenv import load_dotenv
-    load_dotenv()
+    # Load .env from the same directory as main.py
+    load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 except ImportError:
     pass
 
